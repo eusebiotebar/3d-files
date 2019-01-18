@@ -38,18 +38,20 @@ include <arc.scad>
 ****************************************************************************/
 
 /* [Hidden] */
-$fa = 6;
+$fa = 4;
 $fs = 0.5;
 
+
+
 height_front=16;
-text_line1="E. Tébar";
+text_line1="D. Santos";
 text_line2="Knorr-Bremse";
-font_size=5;
+font_size=6;
 
 hookThickness	= 2;
 MonitorHeight	= 17;
 hookHeight 		= 40;
-hookLength		= 30;
+hookLength		= 20;
 topLength 		= 2*hookHeight;
 topBezel 		= 16;
 r34 			= 10;
@@ -67,8 +69,8 @@ echo(arcUpCrochet,angleUpCrochet);
 
 // arcDownCrochet		= 3.5*r56;
 // angleDownCrochet	= 190;
-arcDownCrochet		= 35;
-angleDownCrochet	= 190;
+arcDownCrochet		= 40;
+angleDownCrochet	= 200;
 echo(arcDownCrochet,angleDownCrochet);
 
 
@@ -147,10 +149,8 @@ module Crochet(){
 		}
 }
 
-/****************************************************************************
-	Render
-****************************************************************************/
-difference(){
+module Hook(MirrorOption, withtext){
+	difference(){
 	// Profile extruded
 	linear_extrude(height = MonitorHeight) 
 	 	Side_Profile();
@@ -160,24 +160,38 @@ difference(){
 		cube([topLength+p13x,-p8y,MonitorHeight]);		//echo("cubo :",topLength+p13x,-p8y,MonitorHeight);
 
 	// text on the board
- 	rotate([0,180,0]){
-		//text line 1
-		translate ([0,0,-hookThickness-1]){
-	    	translate([topLength-(2*hookThickness), -font_size-2]) {
-	 		    linear_extrude(height = 2*hookThickness) {
-	     			text(text_line1, font = "Liberation Sans",size=font_size,halign="right");
-	 				}
-	 			}
-	    	//text line 2
-	 		translate([topLength-(2*hookThickness), -font_size*2-2*2]) {
-	 			linear_extrude(height = 2*hookThickness) {
-	     			text(text_line2, font = "Liberation Sans",size=font_size,halign="right");
-	 				}
-	 			}
-	 		}
+
+	mirror([MirrorOption,0,0]){	
+		if (withtext){
+		 	rotate([0,180,0]){
+				//text line 1
+				translate ([-MirrorOption*topLength,0,-hookThickness-1]){
+			    	translate([topLength-(2*hookThickness), -font_size-1.85]) {
+			 		    linear_extrude(height = 2*hookThickness) {
+			     			text(text_line1, font = "Liberation Sans",size=font_size,halign="right" );
+			 				}
+			 			}
+			    	//text line 2
+			 		translate([topLength-(2*hookThickness), -font_size*1.85-1.85*2]) {
+			 			linear_extrude(height = 2*hookThickness) {
+			     			text(text_line2, font = "Liberation Sans",size=font_size,halign="right" );
+			 				}
+			 			}
+			 		}
+				}
+			}
 		}
 	}
+}
 
+/****************************************************************************
+	Render
+****************************************************************************/
+RightSide=1;
+withName		= 0;
+mirror([RightSide,0,0]){	
+		Hook(RightSide,withName);
+		}
 
 
 /*
