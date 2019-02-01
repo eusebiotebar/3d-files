@@ -1,0 +1,173 @@
+var String HeatingTimer “Heating Timer”
+
+
+rule "Heating Timer - Morning Start"
+
+
+when
+	Time cron "0 0 6 ? * MON-FRI" or
+	Item HeatingMode changed
+then
+      
+    if((HeatingMode.state == "TIMER")) {
+         postUpdate(TempSetpoint, 21)
+         HeatingTimer.sendCommand("ON")
+         logInfo("Morning Start Timer")
+    }
+
+    if (HeatingMode.state == "ON") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "OFF") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "Boost") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+  
+end
+
+
+rule "Heating Timer - Morning End"
+
+
+when
+	Time cron "0 30 9 ? * MON-FRI" or
+	Item HeatingMode changed
+then
+      
+    if((HeatingMode.state == "TIMER")) {
+         postUpdate(TempSetpoint, 17)
+         HeatingTimer.sendCommand("ON")
+         logInfo("Morning End Timer")
+    }
+
+    if (HeatingMode.state == "ON") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "OFF") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "Boost") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+  
+end
+
+rule "Heating Timer - Evening Start"
+
+
+when
+	Time cron "0 0 16 ? * MON-FRI" or
+	Item HeatingMode changed
+then
+      
+    if((HeatingMode.state == "TIMER")) {
+         postUpdate(TempSetpoint, 21)
+         HeatingTimer.sendCommand("ON")
+         logInfo("Evening Start Timer")
+    }
+
+    if (HeatingMode.state == "ON") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "OFF") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "Boost") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+  
+end
+
+rule "Heating Timer - Evening End"
+
+
+when
+	Time cron "0 0 22 ? * MON-FRI" or
+	Item HeatingMode changed
+then
+      
+    if((HeatingMode.state == "TIMER")) {
+         postUpdate(TempSetpoint, 17)
+         HeatingTimer.sendCommand("ON")
+         logInfo("Morning End Timer")
+    }
+
+    if (HeatingMode.state == "ON") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "OFF") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "Boost") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+  
+end
+
+
+rule "Heating Timer - Weekend Start"
+
+
+when
+	Time cron "0 0 6 ? * SAT,SUN" or
+	Item HeatingMode changed
+then
+      
+    if((HeatingMode.state == "TIMER")) {
+         postUpdate(TempSetpoint, 21)
+         HeatingTimer.sendCommand("ON")
+         logInfo("Weekend Start Timer")
+    }
+
+    if (HeatingMode.state == "ON") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "OFF") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "Boost") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+  
+end
+
+
+rule "Heating Timer - Weekend End"
+
+
+when
+	Time cron "0 0 22 ? * SAT,SUN" or
+	Item HeatingMode changed
+then
+      
+    if((HeatingMode.state == "TIMER")) {
+         postUpdate(TempSetpoint, 17)
+         HeatingTimer.sendCommand("ON")
+         logInfo("Weekend End Timer")
+    }
+
+    if (HeatingMode.state == "ON") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "OFF") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+
+    if (HeatingMode.state == "Boost") {
+	     HeatingTimer.sendCommand("OFF")
+    }
+  
+end

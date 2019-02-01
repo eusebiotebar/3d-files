@@ -1,0 +1,60 @@
+Frame label="Heating" {
+Switch item=HeatingMode mappings=[ "ON"="ON", "OFF"="OFF", "TIMER"="TIMER", "Boost"="BOOST"]
+Text item=MyTempProxy
+Setpoint item=HeatingBoostTime minValue=10 maxValue=1440 step=10 icon="clock"
+/**CELSIUS*/ Setpoint item=TempSetpoint minValue=0 maxValue=40 step=0.5 icon="temperature"
+//FAHRENHEIT Setpoint item=TempSetpoint minValue=32 maxValue=86 step=1 icon="temperature"
+}
+
+
+
+----------------------------------------------------------------------------------------
+
+sitemap default label="Main Menu"
+{
+  Frame label="Heating" {
+    Switch item=HeatingMode mappings=[ "ON"="ON", "OFF"="OFF"/*, "Schedule"="SCHEDULE"*/, "Boost"="BOOST"]
+    Text item=MyTempProxy
+    Setpoint item=HeatingBoostTime minValue=10 maxValue=1440 step=10 icon="clock"
+    /**CELSIUS*/ Setpoint item=TempSetpoint minValue=0 maxValue=40 step=0.5 icon="temperature"
+    //FAHRENHEIT Setpoint item=TempSetpoint minValue=32 maxValue=86 step=1 icon="temperature"
+  }
+
+  Frame label="Hot Water" {
+    Switch item=HotWaterMode mappings=[ "ON"="ON", "OFF"="OFF"/*, "Schedule"="SCHEDULE"*/, "Boost"="BOOST"]
+    Setpoint item=HotWaterBoostTime minValue=10 maxValue=120 step=10 icon="clock"
+  }
+
+  Frame label="Humidity" {
+    Switch item=HumiMode mappings=[ "ON"="ON", "OFF"="OFF"/*, "Schedule"="SCHEDULE"*/, "Boost"="BOOST"]
+    Text item=MyHumiProxy
+    Setpoint item=HumiBoostTime minValue=10 maxValue=120 step=10 icon="clock"
+    Setpoint item=HumiSetpoint minValue=0 maxValue=100 step=5 icon="humidity"
+  }
+
+//  Frame label="Air Pressure" {
+//    Text item=MyPressureProxy icon="pressure"
+//  }
+
+  Frame label="History" {
+    Group item=charts label="Charts" icon="chart" {
+      Frame {
+        Switch item=chart_period label="Period" mappings=[0="Day", 1="Week", 2="Month", 3="Year"]
+        Chart item=chart_temp period=D refresh=120000 visibility=[chart_period==0, chart_period=="Uninitialized"]
+        Chart item=chart_temp period=W refresh=120000 visibility=[chart_period==1]
+        Chart item=chart_temp period=M refresh=120000 visibility=[chart_period==2]
+        Chart item=chart_temp period=Y refresh=120000 visibility=[chart_period==3]
+
+        Chart item=chart_humi period=D refresh=120000 visibility=[chart_period==0, chart_period=="Uninitialized"]
+        Chart item=chart_humi period=W refresh=120000 visibility=[chart_period==1]
+        Chart item=chart_humi period=M refresh=120000 visibility=[chart_period==2]
+        Chart item=chart_humi period=Y refresh=120000 visibility=[chart_period==3]
+
+//        Chart item=chart_press period=D refresh=120000 visibility=[chart_period==0, chart_period=="Uninitialized"]
+//        Chart item=chart_press period=W refresh=120000 visibility=[chart_period==1]
+//        Chart item=chart_press period=M refresh=120000 visibility=[chart_period==2]
+//        Chart item=chart_press period=Y refresh=120000 visibility=[chart_period==3]
+      }
+    }
+  }
+}
