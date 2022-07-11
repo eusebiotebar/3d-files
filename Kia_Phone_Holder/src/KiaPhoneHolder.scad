@@ -16,7 +16,7 @@
 	mailto:etebar AT tpsec DOT com DOT es
 
 	Current version:
-	v. 0.0:
+	See @changelog
  @{
  */
 
@@ -37,17 +37,18 @@
 // @changelog
 //      | Issue		Date		Name			Comment
 //      | --------	-----------	------------	---------------------------------
-diversion = "0.0.0" ;	// 05/07/2022 - E. Tebar : 	Initial Release
+//
+/* [Hidden] */
+version = "0.0.1" ;	// 05/07/2022 - E. Tebar : 	Initial Release
 // #
 
-
+include <grid.scad>
 
 /****************************************************************************
 	Parameters
 ****************************************************************************/
 
-
-/// Base parameters
+/* [Base parameters] */
 // Base 
 Base = 154.5; 
 // Lateral Scroll
@@ -62,29 +63,6 @@ Thickness = 2;
 /****************************************************************************
 	Modules
 ****************************************************************************/
-// Grid
-module Grid(){
-// Grid parameters
-// N x N squares
-// square size
-SquareSize = 10; 
-// grid spheres radio
-SphereRadio = 0.5;
-// square numbers (N x N)
-SpheresNumer = 30;
-// Grid total size
-size = SpheresNumer * SquareSize;
-
-// Drawing Grid
-translate([-size / 2, -size / 2, 0]) // Center Grid
-for (ix = [0:SpheresNumer])					 // spheres in x axle
-  for (iy = [0:SpheresNumer]) 					//  spheres in y axle
-    // Set sphere in the point (ix, iy)
-	color("Gainsboro")
-    	translate([ix * SquareSize, iy * SquareSize, 0])
-			sphere(r = SphereRadio, $fn=20);
-}
-
 
 // Side Profile in 2D
 module Side_Profile() {
@@ -118,7 +96,7 @@ module KiaBaseLength(){
 /****************************************************************************
 	Render
 ****************************************************************************/
-echo(str("Version = ", diversion));
+
 
 Grid();
 

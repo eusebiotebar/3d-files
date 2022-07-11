@@ -1,3 +1,0 @@
-Sources for Boîtier "Jeedom" pour Raspberry et PiDrive avec ventilateur
-
-Case for Raspberry Pi and PiDrive (https://www.thingiverse.com/thing:1594044)
