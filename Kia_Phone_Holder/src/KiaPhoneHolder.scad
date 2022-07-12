@@ -39,7 +39,7 @@
 //      | --------	-----------	------------	---------------------------------
 //
 /* [Hidden] */
-version = "0.0.1" ;	// 05/07/2022 - E. Tebar : 	Initial Release
+version = "0.1.1" ;	// 05/07/2022 - E. Tebar : 	Initial Release
 // #
 
 include <grid.scad>
@@ -58,49 +58,53 @@ BaseLength = Base- Scroll;
 // Wide
 Wide = 68.5; 
 // Thickness
-Thickness = 2; 
+Thickness = 1; 
+// Cube round
+CubeRoundRadio = 1; 
+
 
 /****************************************************************************
 	Modules
 ****************************************************************************/
 
-// Side Profile in 2D
-module Side_Profile() {
-// Trapecio
-polygon(points = [
-                  [-BaseLength/2 , -Wide/2 ],
-                  [-BaseLength/2 - Scroll, Wide/2],
-                  [BaseLength/2 -  Scroll, Wide/2],
-                  [BaseLength/2 , -Wide/2]
-                 ]);
-				 
-}
+// Profile in 3D
+module CubeProfile()
+{
 
+// Set coordinates
+x = BaseLength/2 ;
+y = Wide/2;
+z = Thickness; 
+
+// Calculate cube vortices
+vertice = [
+  [x, y, z],
+  [-x -Scroll, y, z],
+  [-x, -y, z],
+  [x + Scroll, -y, z],
+  [x, y, -z],
+  [-x - Scroll, y, -z],
+  [-x , -y, -z],
+  [x + Scroll, -y, -z],
+]; 
+
+// Draw rounded cube. One sphere per vortice with radio r and applie hull operator
+hull()
+  for (pos = vertice)
+    translate(pos)
+      sphere(r = CubeRoundRadio, $fn = 20);
+}
 
 /****************************************************************************
 	Render
 ****************************************************************************/
 
 
-module KiaBaseLength(){
-	
-	hull() {
-		difference(){
-		// Profile extruded
-		linear_extrude(height = Thickness, center = true)
-			Side_Profile();
-		}
-	}
-}
-
-/****************************************************************************
-	Render
-****************************************************************************/
-
-
+// projection()
 Grid();
+	CubeProfile();
 
-KiaBaseLength();
+
 
 /***************************************************************************/
 /** @} */ /*	End of file */
