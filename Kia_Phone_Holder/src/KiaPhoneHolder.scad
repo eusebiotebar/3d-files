@@ -47,52 +47,111 @@ include <grid.scad>
 /****************************************************************************
 	Parameters
 ****************************************************************************/
+$fn= $preview ? 32 : 64;
 
-/* [Base parameters] */
+/* [Pad 1 parameters] */
+rotatePad1 = 9;
+pad1Width = 28;
+pad1Thickness = 6;
+pad1Deep = 5;
+pad1X = 34;
+pad1Y = 25;
+
+/* [Pad 2 parameters] */
+pad2Width = 20.9;
+pad2X = 107;
+pad2Y = 30;
+
+
+/* [BaseProfile parameters] */
+pivotRadius=5;
 // Base 
 Base = 154.5; 
 // Lateral Scroll
 Scroll = 12.8; 
-// Length
-BaseLength = Base- Scroll; 
-// Wide
-Wide = 68.5; 
-// Thickness
-Thickness = 1; 
-// Cube round
-CubeRoundRadio = 1; 
+baseThickness= 1;
+baseWidth = 68.5; 
+baseLength = Base ;
+pinRadius=2;
+pinTaper=0.25;
+clearance=0.2;
+tiny=0.005;
 
+// Set coordinates
+x = -baseLength/2 ;
+y = -baseWidth/2;
+z = 0; 
+HalfExtrudeLength=baseLength-clearance/2;
 
 /****************************************************************************
 	Modules
 ****************************************************************************/
+module pad(rotateZ, padWidth, padThickness){
+	rotate([0,0,rotateZ])
+		{
+    	square([padWidth,padThickness]);
+		}
+}
 
-// Profile in 3D
-module CubeProfile()
-{
+module HalfBaseScroll(){
+	path_pts = [
+		[0, 0],
+		[Scroll, 0],
+		[0, baseWidth]
+		];
+    polygon(path_pts);
+}
 
-// Set coordinates
-x = BaseLength/2 ;
-y = Wide/2;
-z = Thickness; 
+module BaseProfile() {
 
-// Calculate cube vortices
-vertice = [
-  [x, y, z],
-  [-x -Scroll, y, z],
-  [-x, -y, z],
-  [x + Scroll, -y, z],
-  [x, y, -z],
-  [-x - Scroll, y, -z],
-  [-x , -y, -z],
-  [x + Scroll, -y, -z],
-]; 
+	union() 
+		{
+		difference()
+			{
+			square([baseLength,baseWidth]);
+			HalfBaseScroll();
+			}
+			translate([baseLength,0,0])
+				{
+				HalfBaseScroll();
+				}
+		}
+}
 
-// Draw rounded cube. One sphere per vortice with radio r and applie hull operator
-hull()
-  for (pos = vertice)
-    translate(pos)
-      sphere(r = CubeRoundRadio, $fn = 20);
+module Body() {
+
+//	union() 
+	difference()
+		{
+		linear_extrude(baseThickness)
+		  	{
+			offset(1)offset(-2)offset(1)
+				{
+				BaseProfile();
+				}
+			}		
+		#linear_extrude(pad1Deep)
+			{
+			offset(1)offset(-1)
+				{
+				translate([pad1X,pad1Y,0])
+					{
+					pad(rotatePad1,pad1Width,pad1Thickness);
+					}
+				}
+			}
+		#linear_extrude(pad1Deep)
+			{
+			offset(1)offset(-1)
+				{
+				translate([pad2X,pad2Y,0])
+					{
+					pad(rotatePad1,pad2Width,pad1Thickness);
+					}
+				}
+			}
+		}
+
 }
 
 /****************************************************************************
@@ -100,10 +159,12 @@ hull()
 ****************************************************************************/
 
 
-// projection()
-Grid();
-	CubeProfile();
-
+projection()
+	translate([x,y,z])
+		{
+		Body();
+		}
+*Grid();
 
 
 /***************************************************************************/

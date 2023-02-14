@@ -168,7 +168,7 @@ module Hook(MirrorOption, withtext){
 				translate ([-MirrorOption*topLength,0,-hookThickness-1]){
 			    	translate([topLength-(2*hookThickness), -font_size-1.85]) {
 			 		    linear_extrude(height = 2*hookThickness) {
-			     			text(text_line1, font = "Liberation Sans",size=font_size,halign="right" );
+			     			#text(text_line1, font = "Liberation Sans",size=font_size,halign="right" );
 			 				}
 			 			}
 			    	//text line 2

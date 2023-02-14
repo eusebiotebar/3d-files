@@ -1,0 +1,21 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "font": "DejaVu Sans:style=Condensed Bold",
+            "font_size1": "14",
+            "font_size2": "6.5",
+            "line1": "Eusebio",
+            "line2": "Tebar",
+            "one_line": "0"
+        },
+        "New set 2": {
+            "font": "DejaVu Sans:style=Condensed Bold",
+            "font_size1": "14",
+            "font_size2": "6.5",
+            "line1": "Tebar",
+            "line2": "Eusebio",
+            "one_line": "0"
+        }
+    }
+}
